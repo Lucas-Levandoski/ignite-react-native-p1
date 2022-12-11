@@ -36,7 +36,8 @@ export const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#FFF'
   },
   form: {
     flexDirection: 'row',

@@ -1,11 +1,41 @@
 
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { createRef, useState } from 'react';
+import { Alert, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Participant } from '../../components/Participant';
 import { styles } from "./styles";
 
 export function Home() {
-  const handleAddPaticipant = (e: any): void => {
-    console.log(e)
+  const [ participants, setParticipants] = useState<string[]>([]);
+  const [ participant, setParticipant] = useState<string>('');
+
+  const handleAddParticipant = (): void => {
+    if(participants.includes(participant)) {
+      Alert.alert("participante ja existe");
+      console.error("participante ja existe");
+      return;
+    }
+
+    setParticipants((prevState) => ([participant, ...prevState]))
+    setParticipant('');
+  }
+
+  const handleRemoveParticipant = (name: string): void => {
+    Alert.alert('', `remover participante ${name}?`, [
+      {
+        text: 'sim',
+        onPress: () => {
+          participants.splice(participants.indexOf(name),1);
+          setParticipants([...participants]);
+        }
+      },
+      {
+        text: 'não'
+      }
+    ])
+
+
+    participants.splice(participants.indexOf(name),1);
+    setParticipants([...participants]);
   }
 
   return (
@@ -23,15 +53,24 @@ export function Home() {
           style={styles.input} 
           placeholder="Nome do participante"
           placeholderTextColor="#6B6B6B"
+          onChange={(e) => setParticipant(e.nativeEvent.text)}
+          value={participant}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleAddPaticipant}>
+        <TouchableOpacity style={styles.button} onPress={handleAddParticipant}>
           <Text style={styles.buttonText}>
             +
           </Text>
         </TouchableOpacity>
       </View>
-      <Participant />
+
+      <FlatList 
+        data={participants}
+        keyExtractor={item => item}
+        renderItem={({item}) => (
+          <Participant name={item} onRemove={handleRemoveParticipant} />
+        )}
+      />
     </View>
   )
 }

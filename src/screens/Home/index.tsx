@@ -25,8 +25,7 @@ export function Home() {
         text: 'sim',
         onPress: () => {
           setParticipants((prevState) => {
-            prevState.splice(prevState.indexOf(name), 1);
-            return [...prevState];
+            return [...prevState.filter(_name => _name !== name)];
           });
         }
       },

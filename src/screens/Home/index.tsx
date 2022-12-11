@@ -31,10 +31,6 @@ export function Home() {
         text: 'não'
       }
     ])
-
-
-    participants.splice(participants.indexOf(name),1);
-    setParticipants([...participants]);
   }
 
   return (

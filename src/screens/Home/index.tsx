@@ -24,8 +24,10 @@ export function Home() {
       {
         text: 'sim',
         onPress: () => {
-          participants.splice(participants.indexOf(name),1);
-          setParticipants([...participants]);
+          setParticipants((prevState) => {
+            prevState.splice(prevState.indexOf(name), 1);
+            return [...prevState];
+          });
         }
       },
       {
@@ -53,7 +55,7 @@ export function Home() {
           style={styles.input} 
           placeholder="Nome do participante"
           placeholderTextColor="#6B6B6B"
-          onChange={(e) => setParticipant(e.nativeEvent.text)}
+          onChangeText={(text) => setParticipant(text)}
           value={participant}
         />
 
